@@ -1,0 +1,14 @@
+﻿@using KenticoKontentModels
+@model IEnumerable<Location> 
+@{
+    ViewData["Title"] = "Cafes";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Locations</h1>
+
+@foreach(Location location in Model)
+{
+    <div>@location.Name</div>
+}
+

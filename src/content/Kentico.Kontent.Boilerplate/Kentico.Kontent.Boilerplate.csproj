@@ -1,0 +1,89 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UserSecretsId>Kentico.Kontent.Boilerplate</UserSecretsId>
+    <Authors>Kentico Software</Authors>
+    <Product>Kentico Kontent</Product>
+    <Copyright>© 2016 Kentico Software. All rights reserved.</Copyright>
+    <Description>Kentico Kontent .NET MVC Boilerplate</Description>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <IsPackable>true</IsPackable>
+    <PackageType>Template</PackageType>
+    <PackageId>Kentico.Kontent.Boilerplate</PackageId>
+    <IncludeContentInPack>true</IncludeContentInPack>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+    <ContentTargetFolders>content</ContentTargetFolders>
+    <PackageProjectUrl>https://github.com/Kentico/kontent-boilerplate-net</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/Kentico/kontent-boilerplate-net.git</RepositoryUrl>
+    <PackageIconUrl>https://github.com/Kentico/Home/blob/master/images/kk-logo-nuget.png?raw=true</PackageIconUrl>
+    <PackageTags>kentico;mvc;aspnet;aspnetmvc;dotnetcore;dotnet;aspnetcore</PackageTags>
+    <NuspecFile>$(MSBuildThisFileDirectory)..\..\Template.nuspec</NuspecFile>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="Models\NewFolder\**" />
+    <Compile Remove="Tools\**" />
+    <Content Remove="Models\NewFolder\**" />
+    <Content Remove="Tools\**" />
+    <EmbeddedResource Remove="Models\NewFolder\**" />
+    <EmbeddedResource Remove="Tools\**" />
+    <None Remove="Models\NewFolder\**" />
+    <None Remove="Tools\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Models\Article.cs" />
+    <Compile Remove="Models\Cafe.cs" />
+    <Compile Remove="Models\ContentTypes\AboutUs.cs" />
+    <Compile Remove="Models\ContentTypes\AboutUs.Generated.cs" />
+    <Compile Remove="Models\ContentTypes\Accessory.cs" />
+    <Compile Remove="Models\ContentTypes\Accessory.Generated.cs" />
+    <Compile Remove="Models\ContentTypes\Brewer.cs" />
+    <Compile Remove="Models\ContentTypes\Brewer.Generated.cs" />
+    <Compile Remove="Models\ContentTypes\Coffee.cs" />
+    <Compile Remove="Models\ContentTypes\Coffee.Generated.cs" />
+    <Compile Remove="Models\ContentTypes\FactAboutUs.cs" />
+    <Compile Remove="Models\ContentTypes\FactAboutUs.Generated.cs" />
+    <Compile Remove="Models\ContentTypes\Grinder.cs" />
+    <Compile Remove="Models\ContentTypes\Grinder.Generated.cs" />
+    <Compile Remove="Models\ContentTypes\HeroUnit.cs" />
+    <Compile Remove="Models\ContentTypes\HeroUnit.Generated.cs" />
+    <Compile Remove="Models\ContentTypes\HostedVideo.cs" />
+    <Compile Remove="Models\ContentTypes\HostedVideo.Generated.cs" />
+    <Compile Remove="Models\ContentTypes\Office.cs" />
+    <Compile Remove="Models\ContentTypes\Office.Generated.cs" />
+    <Compile Remove="Models\ContentTypes\Tweet.cs" />
+    <Compile Remove="Models\ContentTypes\Tweet.Generated.cs" />
+    <Compile Remove="Models\CustomTypeProvider.cs" />
+    <Compile Remove="Models\Home.cs" />
+    <Compile Remove="Models\Location.cs" />
+    <Compile Remove="Models\NavigationItem.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="IISUrlRewrite.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Kentico.AspNetCore.LocalizedRouting" Version="1.0.0-beta2" />
+    <PackageReference Include="Kentico.Kontent.AspNetCore" Version="0.0.8" />
+    <PackageReference Include="Kentico.Kontent.Delivery" Version="13.0.1" />
+    <PackageReference Include="Kentico.Kontent.Delivery.Caching" Version="13.0.1" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.2" />
+    <PackageReference Include="SimpleMvcSitemap" Version="3.1.0" />
+  </ItemGroup>
+
+  <Target Name="GenerateModels" BeforeTargets="BeforeBuild;BeforeRebuild">
+    <PropertyGroup>
+      <PowerShellExe Condition=" '$(PowerShellExe)'=='' ">%WINDIR%\System32\WindowsPowerShell\v1.0\powershell.exe</PowerShellExe>
+      <ScriptLocation Condition=" '$(ScriptLocation)'=='' ">$(ProjectDir)\Tools\GenerateModels.ps1</ScriptLocation>
+    </PropertyGroup>
+    <Exec Command="&quot;$(PowerShellExe)&quot; -NonInteractive -executionpolicy Unrestricted -command &quot;&amp; { &quot;$(ScriptLocation)&quot; } &quot;">
+    </Exec>
+    <ItemGroup>
+      <Compile Remove="Models\**\*.cs" />
+      <Compile Include="Models\**\*.cs" />
+      <FileWrites Remove="Models\**\*.cs" />
+      <FileWrites Update="Models\**\*.cs" />
+    </ItemGroup>
+  </Target>
+</Project>

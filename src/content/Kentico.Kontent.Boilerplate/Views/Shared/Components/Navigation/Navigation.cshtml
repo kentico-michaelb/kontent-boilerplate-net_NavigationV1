@@ -1,0 +1,20 @@
+﻿@using KenticoKontentModels
+@using Microsoft.AspNetCore.Mvc.Routing
+@model Dictionary<string, List<string>>
+@{
+    Layout = null;
+}
+
+@foreach (var item in Model)
+{
+    <div>
+        <strong>@item.Key</strong>
+    </div>
+    <div>
+        @foreach (string path in item.Value)
+        {
+        <p>@item.Key/@path</p>
+        }
+    </div>
+}
+

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package>
+  <metadata>
+    <id>Kentico.Kontent.Boilerplate</id>
+    <version>1.0.0</version>
+    <authors>Kentico Software</authors>
+    <description>Kentico Kontent .NET MVC Boilerplate</description>
+    <language>en-US</language>
+    <projectUrl>https://github.com/Kentico/kontent-boilerplate-net</projectUrl>
+    <license type="expression">MIT</license>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <icon>kk-logo-nuget.png</icon>
+    <packageTypes>
+      <packageType name="Template" />
+    </packageTypes>
+  </metadata>
+  <files>
+    <file src="content/**" exclude="**/node_modules/**;**/bin/**;**/obj/**;**/.vs/**;**/.vscode/**;**/ClientApp/dist/**;**/wwwroot/dist/**;content/Directory.Build.*" />
+    <file src="../img/kk-logo-nuget.png" />
+  </files>
+</package>
