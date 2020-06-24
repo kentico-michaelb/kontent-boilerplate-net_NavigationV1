@@ -18,61 +18,86 @@ namespace Kentico.Kontent.Boilerplate.Views.Shared.Components.Navigation
             client = deliveryClient;
         }
 
-
-
-
         public async Task<IViewComponentResult> InvokeAsync()
         {
-
-            var routes = new Dictionary<string, List<string>>();
-            
-
             NavigationItem rootItem = await client.GetItemAsync<NavigationItem>("root_navigation_item",
-                    new DepthParameter(10)
+                    new DepthParameter(5)
                     );
 
-            foreach(NavigationItem navItem in rootItem.Subitems) 
-            {
-                var urls = new List<string>();
-                var parents = new List<string>();
+            var items = new List<NavigationItem>();
 
+            foreach (NavigationItem navItem in rootItem.Subitems) 
+            {
+                var parents = new List<NavigationItem>();
+                
                 if (navItem.Subitems.Count() > 0)
                 {
-                    parents.Add(navItem.Url);
-                    urls = getChildren(urls, navItem.Subitems, parents);                  
+                    parents.Add(navItem);
+                    buildRelationship(navItem.Subitems, parents, items);
                 }
-                routes.Add(navItem.Title, urls);
-            }
-            
 
-            return View("Navigation", routes);
+                buildUrls(items);
+
+            }          
+
+            return View("Navigation", items);
         }
 
-        public List<string> getChildren(List<string> urls, IEnumerable<NavigationItem> children, List<string> parents)
+        //
+        public List<NavigationItem> buildRelationship(IEnumerable<NavigationItem> children, List<NavigationItem> parents, List<NavigationItem> items)
         {
-            foreach(NavigationItem child in children)
+            foreach (NavigationItem child in children)
             {
-                var tempUrl = "";
-                if(parents.Count > 0)
-                { 
-                    foreach(string parent in parents)
-                    {
-                        tempUrl += parent+"/";
+                parents = checkParentRelationship(parents, child);
+            
+                    foreach(NavigationItem parent in parents)
+                    { 
+                        child.Parents.Add(parent);
                     }
-                    urls.Add(tempUrl + child.Url);
-                }
-                if (child.Subitems.Count() > 0)
-                {
-                    parents.Add(child.Url);
-                    urls = getChildren(urls, child.Subitems, parents);
-                }
-                else
-                {
-                    parents.Clear();
-                }
+
+                    if (child.Subitems.Count() > 0)
+                    {
+                        parents.Add(child);
+
+                        buildRelationship(child.Subitems, parents, items);
+                    }
+                    items.Add(child);              
             }
             
-            return urls;
+            return items;
+        }
+
+        public List<NavigationItem> checkParentRelationship(List<NavigationItem> parents, NavigationItem child)
+        {
+            if(!parents.Last().Subitems.Contains(child)) 
+            {
+                parents.Remove(parents.Last());
+                checkParentRelationship(parents, child);
+
+                return parents;
+            }
+
+            return parents;
+        }
+
+        public void buildUrls(List<NavigationItem> items)
+        {
+            foreach(NavigationItem item in items)
+            {
+                string path = "";
+
+                foreach (NavigationItem parent in item.Parents)
+                {
+                    path +=  "/" + parent.Url;
+                }
+                
+                path += "/" + item.Url;
+
+                if (string.IsNullOrEmpty(item.customPath))
+                {
+                    item.customPath = path;
+                }
+            }
         }
     }
 }

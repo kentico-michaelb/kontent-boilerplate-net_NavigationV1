@@ -21,6 +21,7 @@ namespace KenticoKontentModels
         public ContentItemSystemAttributes System { get; set; }
         public string Title { get; set; }
         public string Url { get; set; }
-        public List<NavigationItem> Children { get; set; }
+        public List<NavigationItem> Parents { get; set; }
+        public string customPath { get; set; }
     }
 }

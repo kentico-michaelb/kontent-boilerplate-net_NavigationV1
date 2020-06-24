@@ -1,20 +1,15 @@
 ﻿@using KenticoKontentModels
 @using Microsoft.AspNetCore.Mvc.Routing
-@model Dictionary<string, List<string>>
+@model List<NavigationItem>;
 @{
     Layout = null;
 }
 
-@foreach (var item in Model)
+@foreach (NavigationItem item in Model)
 {
     <div>
-        <strong>@item.Key</strong>
-    </div>
-    <div>
-        @foreach (string path in item.Value)
-        {
-        <p>@item.Key/@path</p>
-        }
+        @item.Title<br />
+        @item.customPath
     </div>
 }
 
