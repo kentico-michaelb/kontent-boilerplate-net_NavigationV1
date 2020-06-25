@@ -37,6 +37,10 @@ namespace Kentico.Kontent.Boilerplate
             services.AddSingleton<CustomTypeProvider>();
             //services.AddSingleton<CustomContentLinkUrlResolver>();
 
+            // Navigation
+            services.AddMemoryCache();
+            services.AddSingleton<NavigationProvider>();
+
 
             // I18N
             services.ConfigureRequestLocalization(CultureConstants.DefaultCulture, CultureConstants.SpanishCulture);
@@ -52,7 +56,7 @@ namespace Kentico.Kontent.Boilerplate
             services.AddDeliveryClientCache(new DeliveryCacheOptions()
             {
                 StaleContentExpiration = TimeSpan.FromSeconds(2),
-                DefaultExpiration = TimeSpan.FromMinutes(24)
+                DefaultExpiration = TimeSpan.FromMinutes(1)
             });
         }
 
