@@ -88,6 +88,9 @@ namespace Kentico.Kontent.Boilerplate
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapDynamicControllerRoute<CustomLocalizedRoutingTranslationTransformer>("{culture=en-US}/{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapControllerRoute(name: "cafes",
+                            pattern: "{culture}/{controller}/{**id}",
+                            defaults: new { controller = "Cafes", action = "Index" });
                 endpoints.MapControllerRoute("default", "{culture=en-US}/{controller=Home}/{action=Index}/{id?}");
             });
         }

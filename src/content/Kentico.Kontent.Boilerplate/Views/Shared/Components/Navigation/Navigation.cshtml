@@ -1,15 +1,19 @@
 ﻿@using KenticoKontentModels
-@using Microsoft.AspNetCore.Mvc.Routing
 @model List<NavigationItem>;
 @{
     Layout = null;
 }
 
 @foreach (NavigationItem item in Model)
-{
+    {
     <div>
-        <b>Title: @item.Title</b><br />
-         @item.customPath
+        @if (item.Parents.Count() == 0)
+        {
+            @Html.ActionLink(@item.Title, "Index", item.Url);
+
+            @Html.DisplayFor(vm => item, "NestedNavigation")
+
+        }
     </div>
-}
+    }
 

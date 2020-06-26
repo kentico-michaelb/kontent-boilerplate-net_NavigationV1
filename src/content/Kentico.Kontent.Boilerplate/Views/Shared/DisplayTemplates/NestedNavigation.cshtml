@@ -1,0 +1,20 @@
+﻿@using KenticoKontentModels
+@model NavigationItem;
+@{
+    Layout = null;
+}
+
+@if (Model.Subitems.Count() > 0)
+{
+    <ul>
+        @foreach (NavigationItem child in Model.Subitems)
+        {
+        <li>
+            @Html.ActionLink(child.Title, null, child.Parents.First().Url, new { id = child.customPath })
+        </li>
+
+            @Html.DisplayFor(vm => child, "NestedNavigation")
+        }
+    </ul>
+}
+

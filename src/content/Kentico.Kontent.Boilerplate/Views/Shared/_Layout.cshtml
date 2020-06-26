@@ -21,41 +21,48 @@
     <!-- Custom styles for this template -->
     <link href="/css/site.css" rel="stylesheet">
 
+    <!-- Navigation Component-->
+    @*<link href="~/css/navigation.css" rel="stylesheet">*@
+
+    <!-- drawer.css -->
+    @*<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/drawer/3.2.2/css/drawer.min.css">*@
+
+
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
         <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
-</head>
-<body>
-    <nav role="navigation">
-        <ul class="dropdown-items-list dropdown-desktop-visible">
-            <li>
-                @Html.ActionLink("English", "Index", "Languages", new
-                {
-                   itemId = (Model as IDetailItem)?.Id,
-                   itemType = (Model as IDetailItem)?.Type,
-                   language = "en-US",
-                   originalAction = ViewContext.RouteData.Values["action"].ToString(),
-                   originalController = ViewContext.RouteData.Values["controller"].ToString()
-                })
 
-            </li>
-            <li>
-                @Html.ActionLink("Spanish", "Index", "Languages", new
-                {
-                   itemId = (Model as IDetailItem)?.Id,
-                   itemType = (Model as IDetailItem)?.Type,
-                   language = "es-ES",
-                   originalAction = ViewContext.RouteData.Values["action"].ToString(),
-                   originalController = ViewContext.RouteData.Values["controller"].ToString()
-               })
-            </li>
-            <li>
-                @await Component.InvokeAsync("Navigation")
-            </li>
-        </ul>
-    </nav>
+</head>
+<body class="drawer drawer--top drawer--navbarTopGutter">
+    <nav role="navigation">
+            <ul class="dropdown-items-list dropdown-desktop-visible">
+                <li>
+                    @Html.ActionLink("English", "Index", "Languages", new
+                    {
+                       itemId = (Model as IDetailItem)?.Id,
+                       itemType = (Model as IDetailItem)?.Type,
+                       language = "en-US",
+                       originalAction = ViewContext.RouteData.Values["action"].ToString(),
+                       originalController = ViewContext.RouteData.Values["controller"].ToString()
+                    })
+
+                </li>
+                <li>
+                    @Html.ActionLink("Spanish", "Index", "Languages", new
+                    {
+                       itemId = (Model as IDetailItem)?.Id,
+                       itemType = (Model as IDetailItem)?.Type,
+                       language = "es-ES",
+                       originalAction = ViewContext.RouteData.Values["action"].ToString(),
+                       originalController = ViewContext.RouteData.Values["controller"].ToString()
+                   })
+                </li>
+            </ul>
+        </nav>
+
+    @await Component.InvokeAsync("Navigation")
     <div class="container">
         @RenderBody()
 
@@ -66,5 +73,15 @@
     </div> <!-- /container -->
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="/js/ie10-viewport-bug-workaround.js"></script>
+    <!-- jquery & iScroll -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/iScroll/5.2.0/iscroll.min.js"></script>
+    <!-- drawer.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/drawer/3.2.2/js/drawer.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.drawer').drawer();
+        });
+    </script>
 </body>
 </html>

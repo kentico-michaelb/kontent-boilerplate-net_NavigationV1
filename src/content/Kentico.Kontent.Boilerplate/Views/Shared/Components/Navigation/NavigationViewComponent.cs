@@ -17,7 +17,7 @@ namespace Kentico.Kontent.Boilerplate.Views.Shared.Components.Navigation
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            return View("Navigation", await _navigation.GetCachedNavigation(5));
+            return View("Navigation", await _navigation.GetCachedNavigation("root_navigation_item",5));
         }
         
     }

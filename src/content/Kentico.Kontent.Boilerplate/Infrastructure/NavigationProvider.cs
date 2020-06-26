@@ -23,15 +23,15 @@ namespace Kentico.Kontent.Boilerplate.Infrastructure
             _cache = memoryCache;
         }
 
-        // inspect this in debug for cache entries.
-        public async Task<List<NavigationItem>> GetCachedNavigation(int depth=1)
+        public async Task<List<NavigationItem>> GetCachedNavigation(string codename, int depth=1)
         {
-            string cacheKey = "NavigationCache";
+            string cacheKey = "NavigationCache-" + Language;
 
             return await _cache.GetOrCreateAsync(cacheKey, async entry =>
             {
-                var navigation = await GetNavigation(depth);
+                var navigation = await GetNavigation(codename, depth);
 
+                // TODO: make this configuraable - NOT 10 minutes.
                 entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(10);
 
                 return navigation;
@@ -39,9 +39,9 @@ namespace Kentico.Kontent.Boilerplate.Infrastructure
 
         }
 
-        public async Task<List<NavigationItem>> GetNavigation(int depth)
+        public async Task<List<NavigationItem>> GetNavigation(string codename, int depth)
         {
-            NavigationItem rootItem = await client.GetItemAsync<NavigationItem>("root_navigation_item",
+            NavigationItem rootItem = await client.GetItemAsync<NavigationItem>(codename,
                     new DepthParameter(depth),
                     new EqualsFilter("system.language", Language),
                     new LanguageParameter(Language)
@@ -63,7 +63,6 @@ namespace Kentico.Kontent.Boilerplate.Infrastructure
                 }
 
                 buildUrls(items);
-
             }
 
             return items;
@@ -83,9 +82,9 @@ namespace Kentico.Kontent.Boilerplate.Infrastructure
                 if (child.Subitems.Count() > 0)
                 {
                     parents.Add(child);
-
                     buildRelationship(child.Subitems, parents, items);
                 }
+                
                 items.Add(child);
             }
 
@@ -109,22 +108,24 @@ namespace Kentico.Kontent.Boilerplate.Infrastructure
         {
             foreach (NavigationItem item in items)
             {
-                string path = "";
-
-                foreach (NavigationItem parent in item.Parents)
+                string path;
+                var urlSegments = new List<string>();
+              
+                // Skip the first parent since it will be the controller name
+                foreach (NavigationItem parent in item.Parents.Skip(1))
                 {
-                    path += "/" + parent.Url;
+                    urlSegments.Add(parent.Url);
                 }
 
-                path += "/" + item.Url;
-
+                urlSegments.Add(item.Url);
+                path = string.Join("/", urlSegments);
+                
                 if (string.IsNullOrEmpty(item.customPath))
                 {
                     item.customPath = path;
                 }
             }
         }
-
     }
 }
 
