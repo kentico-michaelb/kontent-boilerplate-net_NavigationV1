@@ -12,16 +12,5 @@ namespace KenticoKontentModels
 {
     public partial class Cafe
     {
-        public const string Codename = "cafe";
-        public const string AddressCodename = "address";
-        public const string DescriptionCodename = "description";
-        public const string ImageCodename = "image";
-        public const string NameCodename = "name";
-
-        public IRichTextContent Address { get; set; }
-        public IRichTextContent Description { get; set; }
-        public IEnumerable<Asset> Image { get; set; }
-        public string Name { get; set; }
-        public ContentItemSystemAttributes System { get; set; }
     }
 }

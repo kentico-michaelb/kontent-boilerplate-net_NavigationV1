@@ -12,12 +12,6 @@ namespace KenticoKontentModels
 {
     public partial class Location
     {
-        public const string Codename = "location";
-        public const string CafesCodename = "cafes";
-        public const string NameCodename = "name";
 
-        public IEnumerable<object> Cafes { get; set; }
-        public string Name { get; set; }
-        public ContentItemSystemAttributes System { get; set; }
     }
 }

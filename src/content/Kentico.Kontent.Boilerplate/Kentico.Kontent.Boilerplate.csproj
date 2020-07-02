@@ -68,7 +68,7 @@
     <PackageReference Include="Kentico.Kontent.AspNetCore" Version="0.0.8" />
     <PackageReference Include="Kentico.Kontent.Delivery" Version="13.0.1" />
     <PackageReference Include="Kentico.Kontent.Delivery.Caching" Version="13.0.1" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.2" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.3" />
     <PackageReference Include="SimpleMvcSitemap" Version="3.1.0" />
   </ItemGroup>
 

@@ -13,6 +13,7 @@ using Kentico.AspNetCore.LocalizedRouting.Extensions;
 using Kentico.Kontent.Boilerplate.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Kentico.Kontent.Boilerplate.Configuration;
+using Kentico.Kontent.Boilerplate.Resolvers;
 
 namespace Kentico.Kontent.Boilerplate
 {
@@ -35,7 +36,7 @@ namespace Kentico.Kontent.Boilerplate
             services.Configure<ImageTransformationOptions>(Configuration.GetSection(nameof(ImageTransformationOptions)));
 
             services.AddSingleton<CustomTypeProvider>();
-            //services.AddSingleton<CustomContentLinkUrlResolver>();
+            services.AddSingleton<CustomContentLinkUrlResolver>();
 
             // Navigation
             services.AddMemoryCache();
@@ -88,9 +89,23 @@ namespace Kentico.Kontent.Boilerplate
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapDynamicControllerRoute<CustomLocalizedRoutingTranslationTransformer>("{culture=en-US}/{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapControllerRoute(name: "dynamic",
+                    pattern: "{culture}/{controller}/{**id}",
+                    defaults: new { controller = "Home", action = "Index" });
+
                 endpoints.MapControllerRoute(name: "cafes",
-                            pattern: "{culture}/{controller}/{**id}",
-                            defaults: new { controller = "Cafes", action = "Index" });
+                    pattern: "{culture}/cafes/{location}",
+                    defaults: new { controller = "Cafes", action = "Index" });
+
+                endpoints.MapControllerRoute(name: "cafe",
+                    pattern: "{culture}/cafes/{location}/{id}",
+                    defaults: new { controller = "Cafe", action = "Index" });
+
+
+                endpoints.MapControllerRoute(name: "menu",
+                    pattern: "{culture}/cafes/{location}/{id}/{menu}",
+                    defaults: new { controller = "FoodMenu", action = "Index" });
+
                 endpoints.MapControllerRoute("default", "{culture=en-US}/{controller=Home}/{action=Index}/{id?}");
             });
         }

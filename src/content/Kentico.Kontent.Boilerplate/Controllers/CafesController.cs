@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using Kentico.AspNetCore.LocalizedRouting.Attributes;
 using Kentico.Kontent.Boilerplate.Configuration;
 using Kentico.Kontent.Delivery;
@@ -17,18 +18,25 @@ namespace Kentico.Kontent.Boilerplate.Controllers
         {
 
         }
+
         [LocalizedRoute(CultureConstants.EnglishCulture, "Index")]
         [LocalizedRoute(CultureConstants.SpanishCulture, "Indice")]
-        public async Task<ViewResult> Index()
+        public async Task<ViewResult> Index(string location)
         {
-            var response = await DeliveryClient.GetItemsAsync<Location>(
-                new EqualsFilter("system.type", "location"),
-                new EqualsFilter("system.language", Language),
-                new LanguageParameter(Language),
-                new DepthParameter(5)
-            );
+            if (location == null)
+            {
+                return View("~/Views/Error/NotFound.cshtml");
+            }
 
-            return View(response.Items);
+            var response = await DeliveryClient.GetItemsAsync<Location>(
+                    new EqualsFilter("system.type", "location"),
+                    new EqualsFilter("elements.url", location),
+                    new LanguageParameter(Language),
+                    new EqualsFilter("system.language", Language),
+                    new DepthParameter(2)
+                    );
+
+                return View(response.Items[0]);
         }
     }
 }

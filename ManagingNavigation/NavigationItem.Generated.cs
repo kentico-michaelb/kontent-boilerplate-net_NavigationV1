@@ -12,7 +12,14 @@ namespace KenticoKontentModels
 {
     public partial class NavigationItem
     {
-        public List<NavigationItem> Parents { get; set; }
-        public string customPath { get; set; }
+        public const string Codename = "navigation_item";
+        public const string SubitemsCodename = "subitems";
+        public const string TitleCodename = "title";
+        public const string UrlCodename = "url";
+
+        public IEnumerable<object> Subitems { get; set; }
+        public ContentItemSystemAttributes System { get; set; }
+        public string Title { get; set; }
+        public string Url { get; set; }
     }
 }

@@ -1,14 +1,13 @@
 ﻿@using KenticoKontentModels
-@model IEnumerable<Location> 
+@model Location
 @{
     ViewData["Title"] = "Cafes";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Locations</h1>
+<h1>Our Cafes in @Model.City</h1>
 
-@foreach(Location location in Model)
+@foreach(Cafe cafe in Model.Cafes)
 {
-    <div>@location.Name</div>
+    @Html.ActionLink(@cafe.Name, Model.Url, "cafes", new {id = cafe.Url })
 }
-

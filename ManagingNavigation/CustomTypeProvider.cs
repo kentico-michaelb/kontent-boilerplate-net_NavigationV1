@@ -9,10 +9,10 @@ namespace KenticoKontentModels
     {
         private static readonly Dictionary<Type, string> _codenames = new Dictionary<Type, string>
         {
-            {typeof(Article), "article"},
             {typeof(Cafe), "cafe"},
-            {typeof(Home), "home"},
+            {typeof(FoodItem), "food_item"},
             {typeof(Location), "location"},
+            {typeof(Menu), "menu"},
             {typeof(NavigationItem), "navigation_item"}
         };
 

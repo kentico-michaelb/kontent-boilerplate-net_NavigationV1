@@ -10,8 +10,14 @@ using Kentico.Kontent.Delivery.Abstractions;
 
 namespace KenticoKontentModels
 {
-    public partial class Home
+    public partial class Location
     {
+        public const string Codename = "location";
+        public const string CafesCodename = "cafes";
+        public const string CityCodename = "city";
 
+        public IEnumerable<object> Cafes { get; set; }
+        public string City { get; set; }
+        public ContentItemSystemAttributes System { get; set; }
     }
 }
